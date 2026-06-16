@@ -22,9 +22,9 @@ const API_ENDPOINTS = {
         DELETE: '/cliente/:id', // DELETE - remover cliente
     },
     PRODUTO: {
-        PUBLIC: '/produto/public', // GET - listar produtos públicos
+        PUBLIC: '/produto/publico', // GET - listar produtos públicos
         LIST: '/produto/', // GET - listar produtos
-        GET: '/produto/:id', // GET - buscar produto
+        GET: '/produto/:id', // GET - bu5scar produto
         CREATE: '/produto/', // POST - criar produto
         UPDATE: '/produto/:id', // PUT - atualizar produto
         DELETE: '/produto/:id', // DELETE - remover produto

@@ -11,6 +11,9 @@ import { getFuncionarios, deleteFuncionario } from '../services/funcionarioServi
 import { toast } from 'react-toastify';
 // useTheme para acessar o tema do Material-UI.
 import { useTheme } from '@mui/material/styles';
+import ActionButtons from "../components/common/ActionButtons";
+import { useAuth } from '../context/AuthContext';
+import { USER_GROUPS } from '../constants/userGroups';
 
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -19,6 +22,25 @@ function FuncionarioList() {
 
     // O useNavigate é um hook que permite navegar programaticamente entre as rotas da aplicação
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    const handleView = (funcionario) =>
+        navigate(`/funcionario/view/${funcionario.id}`);
+
+    const handleEdit = (funcionario) =>
+        navigate(`/funcionario/edit/${funcionario.id}`);
+
+    const handleDelete = (funcionario) => {
+        const confirmar = window.confirm(
+            `Tem certeza que deseja excluir o funcionário ${funcionario.nome}?`
+        );
+
+        if (confirmar) {
+            handleDeleteConfirm(funcionario.id);
+        }
+    };
+    
+        
 
     // Hook para detectar o tamanho da tela
     // theme: Obtém o tema do Material-UI.
@@ -51,26 +73,10 @@ function FuncionarioList() {
 
     // Função para lidar com o clique no botão de deletar funcionário
     // handleDeleteClick: função que exibe um toast de confirmação antes de excluir o funcionário.
-    const handleDeleteClick = (funcionario) => {
-        toast(
-            <div>
-                <Typography>Tem certeza que deseja excluir o funcionário <strong>{funcionario.nome}</strong>?</Typography>
-                <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button
-                        variant="contained" color="error" size="small"
-                        onClick={() => handleDeleteConfirm(funcionario.id_funcionario)} style={{ marginRight: '10px' }}
-                    >Excluir</Button>
-                    <Button variant="outlined" size="small" onClick={() => toast.dismiss()}>Cancelar</Button>
-                </div>
-            </div>,
-            {
-                position: "top-center", autoClose: false, closeOnClick: false, draggable: false, closeButton: false,
-            }
-        );
-    };
 
     const handleDeleteConfirm = async (id) => {
         try {
+            console.log("EXCLUINDO ID:", id);
             await deleteFuncionario(id);
             fetchFuncionarios();
             toast.dismiss(); // Fecha o toast após a exclusão
@@ -105,13 +111,13 @@ function FuncionarioList() {
         <TableContainer component={Paper}>
 
             <Toolbar sx={{ backgroundColor: '#ADD8E6', padding: 2, borderRadius: 1, mb: 2, display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="h6" color="success" sx={{fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1,}}>
+                <Typography variant="h6" color="success" sx={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1, }}>
                     <PictureAsPdf fontSize="medium" /> Funcionários
                 </Typography>
                 <Button variant="contained" color="success" onClick={() => navigate('/funcionario')} startIcon={<FiberNew />}>Novo</Button>
                 <Button variant="contained" color="success" startIcon={<PictureAsPdf />} onClick={handleGeneratePdf}>Gerar PDF</Button>
             </Toolbar>
-            
+
             <Table>
                 <TableHead>
                     <TableRow>
@@ -145,17 +151,12 @@ function FuncionarioList() {
                                 </>
                             )}
                             <TableCell>
-                                {/* executa a rota, passando o opr view e o id selecionado */}
-                                <IconButton onClick={() => navigate(`/funcionario/view/${funcionario.id_funcionario}`)}>
-                                    <Visibility color="primary" />
-                                </IconButton>
-                                {/* executa a rota, passando o opr edit e o id selecionado */}
-                                <IconButton onClick={() => navigate(`/funcionario/edit/${funcionario.id_funcionario}`)}>
-                                    <Edit color="secondary" />
-                                </IconButton>
-                                <IconButton onClick={() => handleDeleteClick(funcionario)}>
-                                    <Delete color="error" />
-                                </IconButton>
+                                <ActionButtons
+                                    item={funcionario}
+                                    onView={handleView}
+                                    onEdit={user?.grupo === USER_GROUPS.ADMINISTRADOR ? handleEdit : null}
+                                    onDelete={handleDelete}
+                                />
                             </TableCell>
                         </TableRow>
                     ))}
