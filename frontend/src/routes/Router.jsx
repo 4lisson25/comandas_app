@@ -19,6 +19,7 @@ const LoginForm = lazy(() => import("../components/forms/LoginForm"));
 const ComandaList = lazy(() => import("../pages/ComandaList"));
 const ComandaForm = lazy(() => import("../pages/ComandaForm"));
 const ComandaConsumoForm = lazy(() => import("../pages/ComandaConsumoForm"));
+const CaixaForm = lazy(() => import("../pages/CaixaForm"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
 // Loader para o Suspense - melhora a experiência do usuário em aplicações maiores.
@@ -50,7 +51,7 @@ const AppRoutes = () => {
                 <Route path="/funcionario" element={<PrivateRoute allowedGroups={[1]}><FuncionarioForm /></PrivateRoute>} />
                 <Route path="/funcionario/:opr/:id"element={<PrivateRoute allowedGroups={[1]}><FuncionarioForm /></PrivateRoute>}/>
 
-            {/*    <Route path="/caixa" element={<PrivateRoute allowedGroups={[1, 3]}><Caixa /></PrivateRoute>} />      */}
+                <Route path="/caixa" element={<PrivateRoute allowedGroups={[1, 3]}><CaixaForm /></PrivateRoute>} />     
                 <Route path="/clientes" element={<PrivateRoute><ClienteList /></PrivateRoute>} />
                 <Route path="/cliente" element={<PrivateRoute><ClienteForm /></PrivateRoute>} />
                 <Route path="/cliente/:opr/:id" element={<PrivateRoute><ClienteForm /></PrivateRoute>}/>

@@ -82,8 +82,15 @@ const ComandaConsumoForm = () => {
 
     // Função de adicionar item de consumo
     const onSubmit = async (data) => {
+         if (!data.produto_id) {
+            showSnackbar('Selecione um produto antes de adicionar o item', 'warning');
+            return;
+        }
         setLoading(true);
         try {
+            console.log("FORM DATA:", data);
+            console.log("PRODUTO_ID:", data.produto_id);
+            console.log("PRODUTOS:", produtos);
             // Preparar dados para envio
             const itemData = {
                 produto_id: parseInt(data.produto_id),
@@ -186,7 +193,7 @@ const ComandaConsumoForm = () => {
                         Comanda {comanda.comanda}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Cliente: {comanda.cliente_id || 'Não identificado'}
+                        Cliente: {comanda.cliente?.nome || 'Não identificado'}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         Abertura: {new Date(comanda.data_hora).toLocaleString('pt-BR')}
@@ -292,11 +299,6 @@ const ComandaConsumoForm = () => {
                 <Button variant="outlined" onClick={handleCancel} disabled={loading}>Voltar</Button>
             </Box>
         </PageLayout>
-
-
-
-
-
     );
 
 };
