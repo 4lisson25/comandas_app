@@ -248,8 +248,20 @@ const CaixaForm = () => {
                                 </TableCell>
 
                                 <TableCell>
-                                    {comanda.cliente ||
-                                        '-'}
+                                    <Box>
+                                        <Typography>
+                                            {comanda.cliente || '-'}
+                                        </Typography>
+
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            {comanda.produtos?.map(
+                                                p => `${p.quantidade}x ${p.nome}`
+                                            ).join(', ')}
+                                        </Typography>
+                                    </Box>
                                 </TableCell>
 
                                 <TableCell>
@@ -386,6 +398,15 @@ const CaixaForm = () => {
                                 }}
                             >
                                 CNPJ: 00.000.000/0001-00
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    fontFamily: 'Courier New, monospace',
+                                    fontSize: '0.85rem'
+                                }}
+                            >
+                                CLIENTE: {comprovante.cliente || 'Consumidor'}
                             </Typography>
 
                             <Typography

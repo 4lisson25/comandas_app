@@ -94,7 +94,7 @@ const FuncionarioForm = () => {
         try {
             const { exists, funcionario } = await checkCpfExists(cpf);
             const isEditing = !!id;
-            const isSameFuncionario = isEditing && funcionario?.id_funcionario === parseInt(id);
+            const isSameFuncionario = isEditing && funcionario?.id === parseInt(id);
 
             if (exists && !isSameFuncionario) {
                 setCpfDuplicado(funcionario);
@@ -107,12 +107,12 @@ const FuncionarioForm = () => {
     };
 
     const handleViewDuplicate = () => {
-        navigate(`/funcionario/view/${cpfDuplicado.id_funcionario}`);
+        navigate(`/funcionario/view/${cpfDuplicado.id}`);
         setShowCpfModal(false);
     };
 
     const handleEditDuplicate = () => {
-        navigate(`/funcionario/edit/${cpfDuplicado.id_funcionario}`);
+        navigate(`/funcionario/edit/${cpfDuplicado.id}`);
         setShowCpfModal(false);
     };
 

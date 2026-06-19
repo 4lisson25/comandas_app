@@ -122,7 +122,7 @@ function FuncionarioList() {
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>
-                        <TableCell>Nome de Alisson</TableCell>
+                        <TableCell>Nome</TableCell>
                         <TableCell>CPF</TableCell>
                         {/* conforme o tamanho da tela, define o que renderizar */}
                         {!isSmallScreen && (
@@ -138,8 +138,8 @@ function FuncionarioList() {
 
                 <TableBody>
                     {funcionarios.map((funcionario) => (
-                        <TableRow key={funcionario.id_funcionario}>
-                            <TableCell>{funcionario.id_funcionario}</TableCell>
+                        <TableRow key={funcionario.id}>
+                            <TableCell>{funcionario.id}</TableCell>
                             <TableCell>{funcionario.nome}</TableCell>
                             <TableCell>{funcionario.cpf}</TableCell>
                             {/* conforme o tamanho da tela, define o que renderizar */}
